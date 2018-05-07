@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.nio.charset.StandardCharsets;
 
@@ -58,7 +59,7 @@ public final class CSVFiles {
 			for (int i = 0; i < chars.length; i++) {
 				final char c = chars[i];
 
-				if (c == '\"') {	// double quote
+				if (c == '"') {	// double quote
 					inQuotes = !inQuotes;
 					continue;
 				}
@@ -89,9 +90,20 @@ public final class CSVFiles {
 	 * Encodes a row for writing to the CSV file.
 	 */
 	private static String encodeRow(List<String> row) {
-		//TODO put entries in quotes
-		final String lStr = row.toString();
-		return lStr.substring(1, lStr.length()-1);
+		final StringBuilder line = new StringBuilder();
+
+		if (!row.isEmpty()) {
+			final Iterator<String> it = row.iterator();
+
+			// first entry
+			line.append('"').append(it.next()).append('"');
+
+			// the rest
+			for (; it.hasNext(); )
+				line.append(",\"").append(it.next()).append('"');
+		}
+
+		return line.toString();
 	}
 
 
