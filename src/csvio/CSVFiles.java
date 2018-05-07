@@ -1,10 +1,12 @@
 package csvio;
 
 import java.io.IOException;
+import java.io.BufferedWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Utility methods for reading an writing CSV files.
@@ -24,7 +26,24 @@ public final class CSVFiles {
 
 		return csvFile;
 	}
-
+	
+	
+	/**
+	 *
+	 */
+	public static void writeFile(CSVFile document, Path file) throws IOException {
+		final BufferedWriter writer = 
+				Files.newBufferedWriter(file, StandardCharsets.UTF_8);
+	
+		for (List<String> row : document) {
+			writer.write(encodeRow(row));
+			writer.newLine();
+		}
+		
+		writer.close();
+	}
+	
+	
 	/**
 	 * Splits a line in a CSV file to a list of entries, parsing any quotes if needed.
 	 */
@@ -63,6 +82,16 @@ public final class CSVFiles {
 		}
 
 		return row;
+	}
+	
+	
+	/**
+	 * Encodes a row for writing to the CSV file.
+	 */
+	private static String encodeRow(List<String> row) {
+		//TODO put entries in quotes
+		final String lStr = row.toString();
+		return lStr.substring(1, lStr.length()-1);
 	}
 
 
