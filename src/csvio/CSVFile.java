@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 /**
  * Represents a CSV file.
+ *
+ * @version 1.0
  */
 public final class CSVFile implements Iterable<List<String>> {
 

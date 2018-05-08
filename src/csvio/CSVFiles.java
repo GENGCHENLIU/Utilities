@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * Utility methods for reading an writing CSV files.
+ * @version 1.0
  */
 public final class CSVFiles {
 	private CSVFiles() {}
@@ -30,7 +31,7 @@ public final class CSVFiles {
 	
 	
 	/**
-	 *
+	 * Writes the specified document to the specified location.
 	 */
 	public static void writeFile(CSVFile document, Path file) throws IOException {
 		final BufferedWriter writer = 

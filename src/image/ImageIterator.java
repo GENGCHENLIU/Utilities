@@ -2,13 +2,15 @@ package image;
 
 /**
  * A simple iterator-like object that can be used to visit all pixels in an image.
- * For example:
- * {@code
+ * For example:<br>
+ * <pre>{@code
  * 	for (ImageIterator it = new ImageIterator(width, height);
- * 			it.hasNext(); it.advance()) {
+ * 		it.hasNext(); it.advance()) {
  * 		// do things
  * 	}
- * }
+ * }</pre>
+ *
+ * @version 1.0
  */
 public class ImageIterator {
 	private final int width, height;
