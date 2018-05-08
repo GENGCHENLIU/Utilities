@@ -99,7 +99,7 @@ public final class CSVFiles {
 			line.append('"').append(it.next()).append('"');
 
 			// the rest
-			for (; it.hasNext(); )
+			while (it.hasNext())
 				line.append(",\"").append(it.next()).append('"');
 		}
 

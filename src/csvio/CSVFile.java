@@ -44,16 +44,25 @@ public final class CSVFile implements Iterable<List<String>> {
 		contents.add(index, toStringList(row));
 	}
 
+	/**
+	 * Adds all rows to the end of this document.
+	 */
 	public void addRows(Collection<? extends Collection<?>> contents) {
 		for (Collection<?> row : contents)
 			addRow(row);
 	}
 
+	/**
+	 * Removes the specified row.
+	 */
 	public List<String> removeRow(int index) {
 		return contents.remove(index);
 	}
 
 
+	/**
+	 * Converts a collection of any type to a list of strings.
+	 */
 	private static List<String> toStringList(Collection<?> c) {
 		return c.stream()
 				.map(Objects::toString)
