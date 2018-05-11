@@ -8,25 +8,35 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.nio.charset.StandardCharsets;
+import java.util.stream.Stream;
 
 /**
  * Utility methods for reading an writing CSV files.
- * @version 1.0
+ * @version 1.1
  */
 public final class CSVFiles {
 	private CSVFiles() {}
 
 	/**
 	 * Reads the file at the specified Path as a CSV file.
+	 * Note that this method reads the entire file into memory.
 	 */
 	public static CSVFile readFile(Path file) throws IOException {
-		final CSVFile csvFile = new CSVFile();
+		return readFileByLines(file)
+				.collect(
+						CSVFile::new, CSVFile::addRow,
+						(f1, f2) -> f1.addRows(f2.getRows())
+				);
+	}
 
-		Files.readAllLines(file).stream()
-				.map(CSVFiles::parseRow)
-				.forEach(csvFile::addRow);
 
-		return csvFile;
+	/**
+	 * Returns a stream containing parsed lines of CSV files.
+	 * This method does not read the entire file at once.
+	 */
+	public static Stream<List<String>> readFileByLines(Path file) throws IOException {
+		return Files.lines(file)
+				.map(CSVFiles::parseRow);
 	}
 	
 	
@@ -49,7 +59,7 @@ public final class CSVFiles {
 	/**
 	 * Splits a line in a CSV file to a list of entries, parsing any quotes if needed.
 	 */
-	private static List<String> parseRow(String s) {
+	public static List<String> parseRow(String s) {
 		final List<String> row = new ArrayList<>();
 
 		try {
@@ -70,7 +80,7 @@ public final class CSVFiles {
 					continue;
 				}
 
-				if (c == ',') {
+				if (!inQuotes && c == ',') {
 					row.add(buffer.toString());
 					buffer.delete(0, buffer.length());
 					continue;
@@ -90,7 +100,7 @@ public final class CSVFiles {
 	/**
 	 * Encodes a row for writing to the CSV file.
 	 */
-	private static String encodeRow(List<String> row) {
+	public static String encodeRow(List<String> row) {
 		final StringBuilder line = new StringBuilder();
 
 		if (!row.isEmpty()) {

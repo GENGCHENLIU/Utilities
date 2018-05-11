@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 /**
  * Represents a CSV file.
  *
- * @version 1.0
+ * @version 1.1
  */
 public final class CSVFile implements Iterable<List<String>> {
 
@@ -26,11 +26,21 @@ public final class CSVFile implements Iterable<List<String>> {
 
 
 	/**
+	 * Returns the number of rows in this file.
+	 */
+	public int rows() { return contents.size(); }
+
+	/**
 	 * Returns an unmodifiable view of the specified row.
 	 */
 	public List<String> getRow(int index) {
 		return Collections.unmodifiableList(contents.get(index));
 	}
+
+	/**
+	 * Returns all rows in this CSV file.
+	 */
+	List<List<String>> getRows() { return contents; }
 
 	/**
 	 * Adds a row to the end of this document.
