@@ -100,11 +100,11 @@ public final class CSVFiles {
 	/**
 	 * Encodes a row for writing to the CSV file.
 	 */
-	public static String encodeRow(List<String> row) {
+	public static String encodeRow(List<?> row) {
 		final StringBuilder line = new StringBuilder();
 
 		if (!row.isEmpty()) {
-			final Iterator<String> it = row.iterator();
+			final Iterator<?> it = row.iterator();
 
 			// first entry
 			line.append('"').append(it.next()).append('"');
