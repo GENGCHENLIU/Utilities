@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 /**
  * Utility methods for reading an writing CSV files.
- * @version 1.1
+ * @version 1.2
  */
 public final class CSVFiles {
 	private CSVFiles() {}
@@ -88,6 +88,10 @@ public final class CSVFiles {
 
 				buffer.append(c);
 			}
+
+			// last entry does not end with comma, need to be manually added
+			if (buffer.length() > 0)
+				row.add(buffer.toString());
 		}
 		catch (RuntimeException e) {
 			throw new IllegalCSVFormatException(e);
